@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  server:
+    container_name: api
+    build:
+      context: .
+      dockerfile: dockerfiles/api-dev.dockerfile
+    ports:
+      - ${SERVER_PORT:-8000}:8000
+    volumes:
+      - /app/node_modules
+      - ./src:/app/src:ro
+    environment:
+      - PORT_NUMBER=8000
+      - CACHING_DURATION_HOURS=24
+      - NUMBER_RESULTS=5
+      - TS_NODE_FILES=true 
+      - TS_NODE_TRANSPILE_ONLY=true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
